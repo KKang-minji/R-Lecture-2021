@@ -1,0 +1,111 @@
+---
+title: "data.frame"
+author: "kangminji"
+date: '2021 4 22 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 데이터프레임
+## 데이터프레임 생성
+```{r}
+name = c('철수', '춘향', '길동')
+age = c(22, 20, 25)
+gender = factor(c('M','F','M'))
+blood_type = factor(c('A', 'O', 'B'))
+
+patients <- data.frame(name,age,gender,blood_type)
+patients
+```
+
+```{r}
+patients$name
+typeof(patients$name)
+patients[1,]   #첫번째 행 모두
+patients[,2]   #두번째 열 모두
+patients[2,3]
+patients$gender[3]   
+patients[patients$name=='철수',]  # = patients[1,], filtering
+patients[patients$name=='철수',c('age','gender')]
+```
+## 데이터프레임에 유용한 함수 
+attach, detach: 데이터 프레임의 속성명을 변수명으로 변경
+```{r}
+attach(patients)
+name
+blood_type
+detach(patients)
+
+```
+
+```{r}
+head(cars)
+attach(cars)
+speed          #오류: 변수가 독립적으로 존재하지 않기에 오류
+dist
+detach(cars)
+speed          #오류: detach했기때문에
+```
+with: 데이터프레임에 다양한 함수 적용
+```{r}
+mean(cars$speed)
+max(cars$dist)
+
+with(cars,mean(speed))
+```
+subset: 데이터프레임에서 일부 데이터만 추출
+```{r}
+subset(cars, speed>20)
+cars[cars$speed>20,]
+subset(cars, speed>20, select = c(dist))  #dist만
+subset(cars, speed>20, select = -c(dist)) #dist만 제외
+```
+
+결측값(NA) 처리
+  결측치 많은경우: 통채로 날린다.
+  결측치 적은 경우: 결측치만 제거
+  대표값으로 대체 (평균, 중앙값, 최빈값)
+```{r}
+head(airquality)
+str(airquality)
+sum(airquality$Ozone)
+head(na.omit(airquality))   #NA포함된 행 전체 제거
+
+```
+
+병합(merge)
+```{r}
+patients
+patients1 <- data.frame(name, age, gender)
+patients2 <- data.frame(name, blood_type)
+merge(patients1,patients2, by = 'name')
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
