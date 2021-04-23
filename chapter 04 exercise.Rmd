@@ -1,0 +1,78 @@
+---
+title: "chapter 04 exercise"
+author: "kangminji"
+date: '2021 4 23 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# p.146
+## 단원문제
+#### 1. 1부터 100까지의 수 중에서 3의 배수이면서 4의 배수는 아닌 수의 합을 구하라.
+```{r}
+product <- 0
+for(i in (1:100)) {
+  if(i%%3 == 0 & i%%4!=0) {
+    product <- product + i
+  }
+}
+print(product)
+
+```
+
+
+#### 2. x와 n을 입력하면 1부터 n까지의 수 중에서 x의 배수 합을 구해주는 사용자 정의 함수를 만들어라.
+```{r}
+sum_func <- function(x,n) {
+  sum <- 0
+  for (i in 1:n) {
+    if(i%%x == 0) {
+      sum <- sum + i
+    }
+  }
+  return(sum)
+}
+sum_func(2,10)
+
+
+
+```
+
+#### 3. install.packages("hflights")와 library(hflights) 명령어를 이용하여 hflights데이터를 활용할 수 있게 하자.
+hflights 데이터에는 총 몇 개의 NA가 존재하는가?
+```{r}
+#install.packages("hflights")
+library(hflights)
+sum(is.na(hflights)) 
+#na는 25755개 존재한다.
+```
+
+#### 4. hflights 데이터에서 비행시간이 가장 긴 데이터는 몇시간 몇분인가?
+```{r}
+max(na.omit(hflights$AirTime))
+#549분이 가장 긴 비행시간이다.
+?hflights
+```
+
+
+
+#### 5. hflights 데이터에서 비행거리가 가장 긴 데이터는 몇 마일인가?
+```{r}
+max(hflights$Distance)
+#3904마일이 가장 긴 비행거리이다.
+```
+
+#### 6. hflights데이터에서 비행편이 취소된 건수는 몇 건인가?
+```{r}
+max(hflights$Cancelled)    #1이 가장 큰 수
+sum(hflights$Cancelled)      
+#2973 건 취소되었다.
+
+```
+
+
+
+
