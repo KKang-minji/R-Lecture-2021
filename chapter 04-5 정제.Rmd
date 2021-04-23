@@ -1,0 +1,136 @@
+---
+title: "Untitled"
+author: "kangminji"
+date: '2021 4 23 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+choose.files()
+score <- read.csv('data\\students2.csv')
+score
+```
+
+```{r}
+#1
+for (i in 2:4) {              #숫자 부여
+  score[,i] <- ifelse(score[,i]>100|score[,i]<0,   #위치 지정
+                      NA, score[,i])
+}
+score
+
+```
+
+## 결측값 처리
+```{r}
+head(airquality)
+sum(is.na(airquality))
+table(is.na(airquality))
+
+sum(is.na(airquality$Temp))        #0이 나옴 NA가 없음
+mean(airquality$Temp)
+
+sum(is.na(airquality$Ozone))       #결측치 37개
+mean(airquality$Ozone)             #에러
+mean(airquality$Ozone, na.rm = T)  #na.rm = T : na 배제
+```
+
+결측값 제거
+```{r}
+library(dplyr)
+air_narm <- airquality %>% na.omit
+air_narm %>% is.na() %>% sum()
+```
+
+결측값 대체
+```{r}
+options(digits = 4) #0.000 -> 4자리
+airquality$Ozone <- replace(airquality$Ozone, 
+                      is.na(airquality$Ozone),
+                      mean(airquality$Ozone,na.rm=T))
+head(airquality)
+```
+결측값 대체(중앙값)
+```{r}
+airquality$Solar.R <- replace(airquality$Solar.R, 
+                      is.na(airquality$Solar.R),
+                      median(airquality$Solar.R,na.rm=T))
+head(airquality)
+```
+
+## 이상값(Outlier)처리
+```{r}
+patients <- data.frame(name=c("환자1","환자2","환자3","환자4","환자5"), 
+                       age= c(22,20,25,30,27), 
+                       gender= factor(c("M","F","M","K","F")), 
+                       blood_type = factor(c("A","O","B","AB","C")))
+patients
+
+#성별에서 이상값 제거
+patients_outrm <- patients[patients$gender == "M"|patients$gender == "F", ]
+patients_outrm
+
+#성별, 혈액형 이상값 제거
+#1
+patients_outrm1 <- patients[patients$gender %in% c('M','F')&
+                              patients$blood_type %in% 
+                              c('A','B','O','AB'),]
+patients_outrm1
+
+#2
+patients_outrm1 <- patients[(patients$gender == "M"|
+                               patients$gender == "F")&
+                              (patients$blood_type == "A"|
+                                 patients$blood_type == "B"|
+                                 patients$blood_type == "O"|
+                                 patients$blood_type=="AB"),]
+patients_outrm1
+
+
+```
+
+이상치를 NA로 대체
+  %in%를 사용하려면 factor가 아니어야함
+```{r}
+patients2 <- data.frame(name=c("환자1","환자2","환자3","환자4","환자5"), 
+                       age= c(22,20,25,30,27), 
+                       gender= c("M","F","M","K","F"), 
+                       blood_type = c("A","O","B","AB","C"))
+patients2
+#이상치 NA로 바꿈
+patients2$gender <- ifelse(patients2$gender %in% c('M','F'),
+                          patients2$gender, NA)
+patients2$blood_type <- ifelse(patients$blood_type %in% c("A","O","B","AB"),
+                               patients2$blood_type, NA)
+patients2
+patients2 %>% is.na() %>% sum          #NA 전체수
+```
+
+숫자에 대한 이상치
+```{r}
+boxplot(airquality[,c(1:4)])
+boxplot(airquality[,1])$stats   #1.0보다 작거나 122.0보다 큰 건 이상치
+boxplot(airquality$Ozone)$stats 
+
+air <- airquality
+air$Ozone <- ifelse(air$Ozone<boxplot(airquality$Ozone)$stats[1] | air$Ozone>boxplot(airquality$Ozone)$stats[5], NA, air$Ozone)
+air$Ozone %>% is.na %>% sum
+airquality$Ozone %>% is.na %>% sum
+#이상치 2개
+mean(air$Ozone, na.rm = T)
+mean(airquality$Ozone, na.rm = T)
+```
+
+
+
+
+
+
+
+
+

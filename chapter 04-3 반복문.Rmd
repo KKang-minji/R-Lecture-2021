@@ -1,0 +1,294 @@
+---
+title: "반복문, List"
+author: "kangminji"
+date: '2021 4 23 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+* list에서 append하는것
+
+
+#### repeat
+  sum,i
+```{r}
+i <- 1
+sum <- 0
+repeat {
+  if (i > 10) {     #1부터 10까지 반복하고 10이 되면 멈춘다.
+    break           #break: repeat 반복문 벗어나는 것
+  }
+  sum <- sum + i
+  i <- i + 1
+}
+print(sum)
+```
+
+while
+조건식에 반복되는식이 잇어야함
+무한 loop조심해야함
+
+```{r}
+i <- 1
+sum <- 0
+while(i <= 10) { #10이하일때 밑에 있는 반복문을 써라
+  sum <- sum + i
+  i <-i + 1
+}
+print(sum)
+```
+for
+```{r}
+sum <- 0
+for(i in 1:10) {
+  sum <- sum + i
+}
+print(sum)
+```
+
+1~10 곱하기
+  for
+```{r}
+product <- 1
+for(i in 1:10) {
+  product <- product * i
+}
+print(product)
+```
+  while
+```{r}
+i <- 1
+product <- 1
+while (i<=10) {
+  product <- product * i
+  i <- i+1
+}
+print(product)
+```
+  repeat
+```{r}
+i <- 1
+product <- 1
+repeat {
+  if (i > 10) {     
+    break           
+  }
+  product <- product * i
+  i <- i + 1
+}
+print(product)
+```
+
+
+  함수로 만들기
+```{r}
+factorial(10)
+```
+
+    신기해서 가져옴
+```{r}
+i <- 1
+repeat {
+   factorial_value <- factorial(i)
+   cat("factorial(", i, ") = ", factorial_value, "\n", sep="")
+   if (factorial_value > 1000000000000) break
+   i <- i+1
+}
+```
+
+1~100 홀수만 더하기
+```{r}
+#1
+product <- 0
+for(i in 1:100) {
+  if(i%%2 == 0) {     #= i%%2 == 1 하고 i = i - 1 삭제
+    i = i - 1
+    product = product + i
+  }
+}
+print(product)
+```
+
+```{r}
+#2
+product <- 0
+for(i in seq(1, 100, by=2)) {
+  product <- product + i
+}
+print(product)
+```
+
+구구단 만들기
+```{r}
+for(k in 1:9) {
+  print(paste('2','x',k,'=',2*k))
+}
+```
+1~9단 만들기
+```{r}
+for (i in 2:9) {
+  print(paste(i,'단=========='))
+  for(k in 1:9) {
+  print(paste(i,'x',k,'=',i*k))
+  }
+}
+```
+
+연습
+  첫번째 행 : 더하기
+  두번째 행 : 제곱해서 더하기
+  세번째 행 : 세제곱해서 더하기
+```{r}
+x <- 1:12
+x
+m <- matrix(x,nrow=3)
+
+nrow <- 3
+ncol <- 4
+
+sum1 <- 0
+sum2 <- 0
+sum3 <- 0
+for (i in 1:nrow) {          #1부터 nrow까지
+  for (k in 1:ncol){         #1부터 ncol까지
+    sum1 <- sum1 + m[i,k]
+    sum2 <- sum2 + m[i,k]**2
+    sum3 <- sum3 + m[i,k]**i
+  }
+}
+print(paste(sum1,sum2,sum3))
+```
+별그리기
+```{r}
+#1
+for(i in 1:5) {
+  star <- ''
+  for (k in 1:i) {
+    star <- paste0(star, '+')
+  }
+  print(star)
+}
+#2
+num <- 4
+for(i in 1:num){
+  for(j in 1:num){
+    if(i>=j) cat("+")
+  }
+  cat("\n")
+}
+```
+별만들기
+```{r}
+n <- 8
+k <- 9
+sum1 <- 0
+sum2 <- 0
+sum3 <- 0
+for (i in 1:nrow) {          #1부터 nrow까지
+  for (k in 1:ncol){         #1부터 ncol까지
+    sum1 <- sum1 + m[i,k]
+    sum2 <- sum2 + m[i,k]**2
+    sum3 <- sum3 + m[i,k]**i
+  }
+}
+print(paste(sum1,sum2,sum3))
+
+
+for(i in 1:9) {
+  star <- ''
+  for (k in 1:i) {
+    for (n in 2:i-1) {
+       star <- paste0(star, '+')
+    }
+  }
+  print(star)
+}
+```
+
+list 만들기
+```{r}
+lst = list()
+lst <- append(lst,3)
+lst <- append(lst,5)
+lst <- append(lst,7)
+length(lst)
+lst[1]                  #원하는 거 추출
+lst[2]
+
+lst <- list()
+for (i in 1:5) {
+  lst <- append(lst, i)
+}
+lst
+
+for(element in lst) {
+  print(element)
+}
+
+vec <- c(1,7,8)
+for(element in vec) {
+  print(element)
+}
+
+for (element in m) {
+  print(element)
+}
+```
+List 약수 구하기
+```{r}
+N = 6
+for (num in 1:N) {
+  if (N %% num == 0) {
+    print(num)
+  }
+}
+?num
+```
+약수의 합
+```{r}
+N = 24
+sum = 0
+for (num in 1:N) {
+  if (N %% num == 0) {
+    sum <- sum +num
+  }
+}
+print(sum)
+```
+
+완전수: 자기자신을 제외한 약수의 합이 자기자신과 같은 수
+perfect number
+1에서 10000사이의 완전수를 찾으시오
+```{r}
+for (N in 2:10000) {
+  sum <- 0
+  for (num in 1:(N-1)) {
+    if (N %% num == 0) {
+      sum <- sum + num
+    }
+  }
+  if (sum == N) {
+    print(N)
+  }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
