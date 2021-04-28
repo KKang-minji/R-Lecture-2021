@@ -1,0 +1,154 @@
+---
+title: "chapter03-3 exercise"
+author: "kangminji"
+date: '2021 4 22 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+정규분포(평균,시그마)
+
+
+#p.90
+
+## 연습문제 1
+#### x=c(1:5)인 벡터가 있다. 이벡터에 c(6:10)인 벡터를 추가하라.
+```{r}
+x <- c(1:5)
+y <- c(6:10)
+x <- x+y
+x
+```
+
+## 연습문제 2
+#### x=c(1:10)인 벡터에서 짝수번째 요소만 남긴 x를 만들어라.
+```{r}
+x <- c(1:10)
+x <- seq(2,10,2)
+x
+```
+```{r}
+x <- c(1:10)
+x[x %% 2 == 0]
+
+```
+
+
+# p.95
+## 연습문제 1
+#### titanic 데이터는 4차원 배열 값을 가지고 있다. plot(titanic)을 수행하여 생존율이 가장 높은 그룹을 유추하라.
+```{r}
+Titanic
+plot(Titanic)
+#crew class인 남성 성인 그룹이 가장 높음
+```
+## 연습 문제 02
+#### x = array(1:24, c(4,6))배열에서 홀수 번째 열만 남긴 x를 만들어라.
+```{r}
+x = array(1:24, c(4,6))
+x
+#1
+x[,c(1,3,5)]
+#2
+x  <- x[,seq(1,6,2)]
+x
+```
+
+# p.104
+## 연습문제 01
+#### airqulity 데이터의 Ozone 평균값을 구하라. 단, Ozone 열에 포함된 NA는 모두 제거한 후 평균을 구해야 한다.
+```{r}
+airquality$Ozone
+mean(na.omit(airquality$Ozone))
+```
+## 연습문제 02
+#### 97쪽 예에서 만든 patients 데이터 구조를 str함수를 이용하여 살펴보라. name 요소의 값이 어떤 형으로 표현되어 있는가? 왜그렇게 표현되었을지 생각해봐라.
+```{r}
+name = c('철수', '춘향', '길동')
+age = c(22, 20, 25)
+gender = factor(c('M','F','M'))
+blood_type = factor(c('A', 'O', 'B'))
+
+patients <- data.frame(name,age,gender,blood_type)
+patients
+```
+
+
+```{r}
+str(patients)
+#name 요소의 값이 character로 나타나 있다. 
+#"철수","춘향" 등 문자형 변수이기때문에 character형으로 나타난 것이다.
+```
+
+# p 112
+
+## 단원문제 
+#### 1. x는 1로부터 100까지의 수 중 3의 배수만 포함하고 y는 1부터 100까지의 수 중 4의 배수만 포함하는 벡터로 만들어라.
+
+```{r}
+x <- c(1:100)
+x <- x[x %% 3 == 0]
+y <- c(1:100)
+y <- x[x %% 4 == 0]
+x
+y
+
+```
+
+## 단원문제 
+#### 2. 문제에서 x와 y의 교집합을 구하고, 해당 교집합에 포함된 수를 모두 더한 값을 구하라.
+```{r}
+z <- intersect(x,y)
+sum(z)
+```
+
+
+#### 3. airquality 데이터는 어느 도시의 공기 질을 나타낸 데이터 인가?
+```{r}
+?airquality
+#답: New York
+```
+
+#### 4. airquality 데이터의 온도 단위는 무엇인가?
+```{r}
+
+```
+
+#### 5. airquality 데이터에서 바람이 가장 세게 분 날은 언제 인가?
+```{r}
+air_wind <- data.frame(airquality$Wind, airquality$Month, airquality$Day)
+#install.packages("reshape")
+library(reshape)
+air_wind <- rename(air_wind, 
+                   c(airquality.Wind = "Wind",
+                   airquality.Month = "Month",
+                   airquality.Day = "Day"))
+subset(air_wind, airquality$Win == max(airquality$Wind))
+```
+#### 6. airquality 데이터에서는 총 몇개의 NA가 포함되어 있는가?
+```{r}
+#1
+table(is.na(airquality))
+#2
+library(dplyr)
+airquality %>% is.na() %>% table
+```
+#### 7. quakes 데이터는 어느 섬의 지진을 관측한 데이터인가?
+```{r}
+?quakes
+#답: Fiji
+```
+
+#### 8. quakes에 기록된 가장 큰 지진의 규모는 얼마인가?
+```{r}
+quakes$mag %>% max()
+```
+
+
+
+
+
+
+
