@@ -1,0 +1,61 @@
+---
+title: "file read, write"
+author: "kangminji"
+date: '2021 4 22 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 파일읽기
+
+```{r}
+getwd()
+students1 <- read.table('data/students1.txt',header=T)
+students1
+str(students1)
+```
+read.csv는 첫 행을 헤더로 읽는 것이 디폴트
+```{r}
+students <- read.csv('data/students.csv')
+students
+```
+
+## 파일쓰기(encoding 신경쓸 것)
+
+```{r}
+write.table(students,file='data/output.txt', fileEncoding='utf-8')
+write.csv(students, file='data/output.csv', fileEncoding='utf-8')
+```
+
+ 행인덱스번호 저장 X
+```{r}
+write.table(students,file='data/output.txt', fileEncoding='utf-8',row.names = FALSE)
+write.csv(students, file='data/output.csv', fileEncoding='utf-8',row.names = FALSE)
+```
+
+""없애기
+```{r}
+write.table(students,file='data/output.txt', fileEncoding='utf-8',row.names = FALSE, quote = F)
+write.csv(students, file='data/output.csv', fileEncoding='utf-8',row.names = FALSE, quote = F)
+```
+제대로읽는지 확인
+fill = TRUE 옵션을 부가하면 NA 표기가 부가되면서 읽어들이기를 간단하게 해결
+
+```{r}
+students <- read.table('data/output.txt', header=T, fill=T, fileEncoding = 'utf-8')
+read.csv('data/output.csv',header=T,fileEncoding = 'utf-8')
+students
+```
+읽을 때 string
+```{r}
+students <- read.table('data/output.txt', header=T, fileEncoding = 'utf-8',stringAsFactors=F)
+students
+students <- read.table('data/output.txt', header=T, fileEncoding = 'utf-8',stringAsFactors=F)
+students
+```
+
+
+
